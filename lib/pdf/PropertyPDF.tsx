@@ -289,7 +289,7 @@ export const PropertyPDF = ({
         {/* Property Title */}
         <Text style={styles.title}>{property.address}</Text>
         <Text style={styles.subtitle}>{property.portfolio}</Text>
-        <View style={[styles.badge, !property.isOwned && styles.badgeLeased]}>
+        <View style={property.isOwned ? styles.badge : [styles.badge, styles.badgeLeased]}>
           <Text>{property.isOwned ? 'CUSTOMER OWNED' : 'LEASED PROPERTY'}</Text>
         </View>
 
