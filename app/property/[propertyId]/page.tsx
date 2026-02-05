@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import Header from '@/components/Header';
 import SatelliteMap from '@/components/SatelliteMap';
+import PrintButton from '@/components/PrintButton';
 import { getPartner } from '@/config/partners';
 import { loadPartnerData } from '@/lib/data/parseCSV';
 import { getPropertyById, formatCurrencyFull } from '@/lib/utils/aggregations';
@@ -280,12 +281,7 @@ export default async function PropertyPage({ params, searchParams }: PageProps) 
             >
               Schedule a Call
             </a>
-            <button
-              onClick={() => window.print()}
-              className="inline-block bg-white hover:bg-gray-100 text-[#1A1A1A] font-medium px-8 py-3 rounded-lg transition-colors"
-            >
-              Download PDF
-            </button>
+            <PrintButton />
           </div>
         </div>
       </main>
