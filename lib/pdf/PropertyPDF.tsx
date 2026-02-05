@@ -353,7 +353,7 @@ export const PropertyPDF = ({
         <View style={styles.footer}>
           <Text style={styles.footerText}>Lumen Energy</Text>
           <Text style={styles.footerText}>Turning Rooftops Into Revenue</Text>
-          <Text style={styles.footerText}>rooftopsintorevenue.com</Text>
+          <Text style={styles.footerText}>www.lumen.energy</Text>
         </View>
       </Page>
 
@@ -439,7 +439,7 @@ export const PropertyPDF = ({
         <View style={styles.footer}>
           <Text style={styles.footerText}>Lumen Energy</Text>
           <Text style={styles.footerText}>Turning Rooftops Into Revenue</Text>
-          <Text style={styles.footerText}>rooftopsintorevenue.com</Text>
+          <Text style={styles.footerText}>www.lumen.energy</Text>
         </View>
       </Page>
     </Document>
