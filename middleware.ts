@@ -25,11 +25,24 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL('/partner/watershed', request.url));
     }
 
+    // Gravity access can only view gravity pages
+    if (accessLevel === 'gravity' && !pathname.startsWith('/partner/gravity')) {
+      return NextResponse.redirect(new URL('/partner/gravity', request.url));
+    }
+
     return NextResponse.next();
   }
 
   // Watershed customer pages (slug-based URLs)
   if (pathname.startsWith('/watershed')) {
+    if (!accessLevel) {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
+    return NextResponse.next();
+  }
+
+  // Gravity customer pages (slug-based URLs)
+  if (pathname.startsWith('/gravity')) {
     if (!accessLevel) {
       return NextResponse.redirect(new URL('/', request.url));
     }
@@ -52,6 +65,7 @@ export const config = {
     '/admin/:path*',
     '/partner/:path*',
     '/watershed/:path*',
+    '/gravity/:path*',
     '/customer/:path*',
     '/property/:path*'
   ]

@@ -30,6 +30,10 @@ export default function Home() {
       // Watershed partner access
       document.cookie = 'access_level=watershed; path=/; max-age=86400';
       router.push('/partner/watershed');
+    } else if (accessCode === 'Gr@V1TY$cl1m@T3') {
+      // Gravity Climate partner access
+      document.cookie = 'access_level=gravity; path=/; max-age=86400';
+      router.push('/partner/gravity');
     } else {
       setError(true);
       setLoading(false);
