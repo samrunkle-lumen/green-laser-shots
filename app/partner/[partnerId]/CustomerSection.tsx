@@ -54,6 +54,7 @@ export default function CustomerSection({ customer, partnerId }: CustomerSection
         </button>
 
         {/* Share Buttons */}
+        <div className="mt-4 pt-4 border-t border-[#9FA38F]/20">
           <ShareButtons customer={customer} customerUrl={customerUrl} />
         </div>
       </div>
