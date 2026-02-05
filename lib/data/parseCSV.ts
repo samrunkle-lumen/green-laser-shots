@@ -77,7 +77,7 @@ export function parseCSV(csvPath: string, partnerId: string): Property[] {
       ratePerKW: parseFloat(ratePerKW.replace(/[$,]/g, '')),
       utility: utility.trim(),
       ownerName: ownerName.trim(),
-      type: (type && type.trim()) || (isOwned ? 'Owned' : 'Leased'),
+      type: ((type && type.trim() === 'Owned') ? 'Owned' : 'Leased') as 'Leased' | 'Owned',
       isOwned,
     };
   });

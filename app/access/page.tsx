@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 
-export default function AccessGate() {
+function AccessGateContent() {
   const [accessKey, setAccessKey] = useState('');
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -117,5 +117,20 @@ export default function AccessGate() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AccessGate() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#F5F5F5] flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#B1E5FF] mx-auto"></div>
+          <p className="mt-4 text-[#9FA38F]">Loading...</p>
+        </div>
+      </div>
+    }>
+      <AccessGateContent />
+    </Suspense>
   );
 }

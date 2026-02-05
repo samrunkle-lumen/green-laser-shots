@@ -5,11 +5,11 @@ import { formatCurrencyFull } from '@/lib/utils/aggregations';
 export function generatePropertyPDF(property: Property, partnerName: string): void {
   const doc = new jsPDF('p', 'mm', 'letter');
 
-  // Lumen brand colors
-  const skyBlue = [177, 229, 255];
-  const electricYellow = [223, 255, 94];
-  const graphiteBlack = [26, 26, 26];
-  const concrete = [159, 163, 143];
+  // Lumen brand colors (as tuples for jsPDF)
+  const skyBlue: [number, number, number] = [177, 229, 255];
+  const electricYellow: [number, number, number] = [223, 255, 94];
+  const graphiteBlack: [number, number, number] = [26, 26, 26];
+  const concrete: [number, number, number] = [159, 163, 143];
 
   let yPos = 20;
 

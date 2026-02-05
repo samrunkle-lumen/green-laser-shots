@@ -44,6 +44,12 @@ export default async function PropertyPage({ params, searchParams }: PageProps) 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
   const propertyUrl = `${baseUrl}/property/${propertyId}?partner=${partnerId}`;
 
+  // Detect if property is in Illinois
+  const addressParts = property.address.split(',');
+  const stateZip = addressParts[addressParts.length - 1]?.trim() || '';
+  const state = stateZip.split(' ')[0];
+  const isIllinois = state === 'IL';
+
   return (
     <div className="min-h-screen bg-white">
       <Header partner={partner} />
@@ -268,6 +274,62 @@ export default async function PropertyPage({ params, searchParams }: PageProps) 
               <p className="text-[#9FA38F]">
                 <strong className="text-[#1A1A1A]">Current lease rates are at their peaks due to the federal Investment Tax Credit (ITC).</strong> Lease rates will decline sharply as the ITC disappears.
               </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Illinois Community Solar Subscription */}
+        {isIllinois && (
+          <div className="mb-12">
+            <div className="bg-[#DFFF5E]/20 border-l-4 border-[#DFFF5E] rounded p-8">
+              <h2 className="text-2xl font-light mb-4">Illinois Community Solar Benefit</h2>
+              <p className="text-lg mb-4">
+                As a property in Illinois, you can subscribe your electricity loads to the community solar project on your rooftop once it's operational.
+              </p>
+              <div className="flex items-start">
+                <svg
+                  className="w-5 h-5 text-[#DFFF5E] mr-2 flex-shrink-0 mt-0.5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span className="text-lg">
+                  This typically includes a <strong>5% fixed discount</strong> on your electricity rates through the community solar subscription.
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Renewable Energy Credits (RECs) */}
+        <div className="mb-12">
+          <div className="bg-[#F5F5F5] rounded-lg p-8">
+            <h2 className="text-2xl font-light mb-4">Renewable Energy Credits (RECs)</h2>
+            <p className="text-lg mb-4">
+              For customers who prioritize environmental attributes and renewable energy credits, we have flexible options.
+            </p>
+            <div className="flex items-start">
+              <svg
+                className="w-5 h-5 text-[#B1E5FF] mr-2 flex-shrink-0 mt-0.5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                aria-hidden="true"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <span className="text-lg">
+                <strong>Developers can often offer replacement RECs</strong> to ensure your organization maintains its renewable energy commitments while still benefiting from the solar lease revenue.
+              </span>
             </div>
           </div>
         </div>

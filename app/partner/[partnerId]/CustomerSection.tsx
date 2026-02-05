@@ -23,6 +23,9 @@ export default function CustomerSection({ customer, partnerId }: CustomerSection
         <button
           onClick={() => setIsExpanded(!isExpanded)}
           className="w-full flex items-center justify-between text-left"
+          aria-expanded={isExpanded}
+          aria-controls={`customer-${customer.id}-properties`}
+          aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${customer.name} properties`}
         >
           <div className="flex-1">
             <div className="flex items-center gap-4">
@@ -43,6 +46,7 @@ export default function CustomerSection({ customer, partnerId }: CustomerSection
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
+            aria-hidden="true"
           >
             <path
               strokeLinecap="round"
@@ -60,9 +64,11 @@ export default function CustomerSection({ customer, partnerId }: CustomerSection
             <Link
               href={`/customer/${customer.id}?partner=${partnerId}`}
               target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center text-sm font-medium text-[#B1E5FF] hover:text-[#94CAEB] transition-colors"
+              aria-label={`Preview customer page for ${customer.name} (opens in new tab)`}
             >
-              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
               </svg>
               Preview Customer Page
@@ -74,13 +80,17 @@ export default function CustomerSection({ customer, partnerId }: CustomerSection
 
       {/* Expanded Content */}
       {isExpanded && (
-        <div className="border-t border-[#9FA38F]/20 p-6 bg-[#F5F5F5]/50">
+        <div
+          id={`customer-${customer.id}-properties`}
+          className="border-t border-[#9FA38F]/20 p-6 bg-[#F5F5F5]/50"
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {customer.properties.map((property) => (
               <Link
                 key={property.id}
                 href={`/property/${property.id}?partner=${partnerId}`}
                 className="bg-white p-4 rounded border border-[#9FA38F]/20 hover:border-[#B1E5FF] hover:shadow-md transition-all"
+                aria-label={`View details for ${property.address}`}
               >
                 <div className="flex justify-between items-start mb-2">
                   <div className="text-sm font-medium text-[#1A1A1A]">

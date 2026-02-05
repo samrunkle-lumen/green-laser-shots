@@ -3,6 +3,8 @@
 import { useState, useMemo } from 'react';
 import CustomerSection from '@/app/partner/[partnerId]/CustomerSection';
 import { Customer } from '@/lib/types/property';
+import SearchableSelect from './SearchableSelect';
+import MultiSelectDropdown from './MultiSelectDropdown';
 
 interface FilterableCustomerListProps {
   customers: Customer[];
@@ -16,13 +18,17 @@ export default function FilterableCustomerList({ customers, partnerId }: Filtera
   const [maxSize, setMaxSize] = useState(10000);
   const [stateFilter, setStateFilter] = useState<string[]>([]);
 
-  // Extract all unique states and landlords from properties
-  const { states, landlords, maxSystemSize } = useMemo(() => {
+  // Extract all unique values for dropdown options
+  const { states, landlords, customerNames, maxSystemSize } = useMemo(() => {
     const stateSet = new Set<string>();
     const landlordSet = new Set<string>();
+    const customerNameSet = new Set<string>();
     let max = 0;
 
     customers.forEach(customer => {
+      // Add customer name
+      customerNameSet.add(customer.name);
+
       customer.properties.forEach(prop => {
         // Extract state from address (last part after comma)
         const addressParts = prop.address.split(',');
@@ -41,6 +47,7 @@ export default function FilterableCustomerList({ customers, partnerId }: Filtera
     return {
       states: Array.from(stateSet).sort(),
       landlords: Array.from(landlordSet).sort(),
+      customerNames: Array.from(customerNameSet).sort(),
       maxSystemSize: Math.ceil(max / 100) * 100 // Round up to nearest 100
     };
   }, [customers]);
@@ -48,15 +55,15 @@ export default function FilterableCustomerList({ customers, partnerId }: Filtera
   // Filter customers based on criteria
   const filteredCustomers = useMemo(() => {
     return customers.filter(customer => {
-      // Customer name filter
-      if (customerFilter && !customer.name.toLowerCase().includes(customerFilter.toLowerCase())) {
+      // Customer name filter - exact match from dropdown
+      if (customerFilter && customer.name !== customerFilter) {
         return false;
       }
 
       // Check if any property matches landlord, size, and state filters
       const hasMatchingProperty = customer.properties.some(prop => {
-        // Landlord filter
-        if (landlordFilter && !prop.ownerName.toLowerCase().includes(landlordFilter.toLowerCase())) {
+        // Landlord filter - exact match from dropdown
+        if (landlordFilter && prop.ownerName !== landlordFilter) {
           return false;
         }
 
@@ -115,75 +122,61 @@ export default function FilterableCustomerList({ customers, partnerId }: Filtera
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Customer Name Filter */}
-          <div>
-            <label className="block text-sm font-medium text-[#9FA38F] mb-2">
-              Customer Name
-            </label>
-            <input
-              type="text"
-              value={customerFilter}
-              onChange={(e) => setCustomerFilter(e.target.value)}
-              placeholder="Search customers..."
-              className="w-full px-3 py-2 border border-[#9FA38F]/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B1E5FF]"
-            />
-          </div>
+          <SearchableSelect
+            label="Customer Name"
+            value={customerFilter}
+            onChange={setCustomerFilter}
+            options={customerNames}
+            placeholder="Select customer..."
+            id="customer-filter"
+          />
 
           {/* Landlord/Owner Filter */}
-          <div>
-            <label className="block text-sm font-medium text-[#9FA38F] mb-2">
-              Landlord/Owner
-            </label>
-            <input
-              type="text"
-              value={landlordFilter}
-              onChange={(e) => setLandlordFilter(e.target.value)}
-              placeholder="Search landlords..."
-              className="w-full px-3 py-2 border border-[#9FA38F]/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B1E5FF]"
-            />
-          </div>
+          <SearchableSelect
+            label="Landlord/Owner"
+            value={landlordFilter}
+            onChange={setLandlordFilter}
+            options={landlords}
+            placeholder="Select landlord..."
+            id="landlord-filter"
+          />
 
           {/* Project Size Filter */}
           <div>
-            <label className="block text-sm font-medium text-[#9FA38F] mb-2">
+            <label htmlFor="size-filter-min" className="block text-sm font-medium text-[#9FA38F] mb-2">
               System Size (kW)
             </label>
             <div className="flex gap-2">
               <input
+                id="size-filter-min"
                 type="number"
                 value={minSize}
                 onChange={(e) => setMinSize(Number(e.target.value))}
                 placeholder="Min"
+                aria-label="Minimum system size in kilowatts"
                 className="w-1/2 px-3 py-2 border border-[#9FA38F]/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B1E5FF]"
               />
               <input
+                id="size-filter-max"
                 type="number"
                 value={maxSize}
                 onChange={(e) => setMaxSize(Number(e.target.value))}
                 placeholder="Max"
+                aria-label="Maximum system size in kilowatts"
                 className="w-1/2 px-3 py-2 border border-[#9FA38F]/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B1E5FF]"
               />
             </div>
           </div>
 
           {/* State Filter */}
-          <div>
-            <label className="block text-sm font-medium text-[#9FA38F] mb-2">
-              State
-            </label>
-            <select
-              multiple
-              value={stateFilter}
-              onChange={(e) => setStateFilter(Array.from(e.target.selectedOptions, option => option.value))}
-              className="w-full px-3 py-2 border border-[#9FA38F]/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B1E5FF] h-[42px]"
-            >
-              {states.map(state => (
-                <option key={state} value={state}>
-                  {state}
-                </option>
-              ))}
-            </select>
-            <p className="text-xs text-[#9FA38F] mt-1">Hold Cmd/Ctrl to select multiple</p>
-          </div>
+          <MultiSelectDropdown
+            label="State"
+            selectedValues={stateFilter}
+            onChange={setStateFilter}
+            options={states}
+            placeholder="Select states..."
+            id="state-filter"
+          />
         </div>
 
         {/* Results count */}
