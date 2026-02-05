@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Customer } from '@/lib/types/property';
-import { generateCustomerEmail, encodeEmailForGmail, encodeEmailForMailto } from '@/lib/email/templates';
+import { generatePartnerOutreachEmail, encodeEmailForGmail, encodeEmailForMailto } from '@/lib/email/templates';
 
 interface ShareButtonsProps {
   customer: Customer;
@@ -12,14 +12,13 @@ interface ShareButtonsProps {
 export default function ShareButtons({ customer, customerUrl }: ShareButtonsProps) {
   const [copied, setCopied] = useState<'message' | 'link' | null>(null);
 
-  const emailTemplate = generateCustomerEmail(customer);
+  const emailTemplate = generatePartnerOutreachEmail(customer, customerUrl);
   const gmailUrl = encodeEmailForGmail(emailTemplate);
   const mailtoUrl = encodeEmailForMailto(emailTemplate);
 
   const handleCopyMessage = async () => {
     try {
-      const fullMessage = `${emailTemplate.body}\n\nView details: ${customerUrl}`;
-      await navigator.clipboard.writeText(fullMessage);
+      await navigator.clipboard.writeText(emailTemplate.body);
       setCopied('message');
       setTimeout(() => setCopied(null), 2000);
     } catch (err) {

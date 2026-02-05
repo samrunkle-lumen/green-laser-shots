@@ -4,7 +4,7 @@ import SatelliteMap from '@/components/SatelliteMap';
 import SharePropertyButtons from '@/components/SharePropertyButtons';
 import { getPartner } from '@/config/partners';
 import { loadPartnerData } from '@/lib/data/parseCSV';
-import { getPropertyById, formatCurrencyFull } from '@/lib/utils/aggregations';
+import { getPropertyById, groupPropertiesByCustomer, getCustomerById, formatCurrencyFull } from '@/lib/utils/aggregations';
 import { getOwnershipLanguage } from '@/lib/content/languageLogic';
 
 interface PageProps {
@@ -37,6 +37,16 @@ export default async function PropertyPage({ params, searchParams }: PageProps) 
     notFound();
   }
 
+  // Get customer data for breadcrumb URL
+  const customers = groupPropertiesByCustomer(properties, partner.id);
+  const customerId = property.portfolio.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  const customer = getCustomerById(customers, customerId);
+
+  // Generate customer URL (use slug for watershed, regular URL for others)
+  const customerUrl = partnerId === 'watershed' && customer
+    ? `/watershed/${customer.slug}`
+    : `/customer/${customerId}?partner=${partnerId}`;
+
   const ownershipInfo = getOwnershipLanguage(property);
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
 
@@ -62,7 +72,7 @@ export default async function PropertyPage({ params, searchParams }: PageProps) 
           </a>
           {' / '}
           <a
-            href={`/customer/${property.portfolio.toLowerCase().replace(/\s+/g, '-')}?partner=${partnerId}`}
+            href={customerUrl}
             className="hover:text-[#1A1A1A]"
           >
             {property.portfolio}
@@ -124,26 +134,13 @@ export default async function PropertyPage({ params, searchParams }: PageProps) 
               </div>
 
               <div className="bg-[#F5F5F5] rounded-lg p-4">
-                <div className="text-xs uppercase tracking-wide text-[#9FA38F] mb-1">
+                <div className="text-sm uppercase tracking-wide text-[#9FA38F] mb-2">
                   System Size
                 </div>
-                <div className="text-2xl font-light">
-                  {property.systemSize.toLocaleString()}
+                <div className="text-4xl font-light">
+                  {property.systemSize.toLocaleString()} <span className="text-lg text-[#9FA38F]">kW</span>
                 </div>
-                <div className="text-sm text-[#9FA38F]">kW</div>
               </div>
-
-              {property.roofMaxPV > property.systemSize && (
-                <div className="bg-[#F5F5F5] rounded-lg p-4">
-                  <div className="text-xs uppercase tracking-wide text-[#9FA38F] mb-1">
-                    Roof Capacity
-                  </div>
-                  <div className="text-2xl font-light">
-                    {property.roofMaxPV.toLocaleString()} kW
-                  </div>
-                  <div className="text-sm text-[#9FA38F]">Maximum potential</div>
-                </div>
-              )}
             </div>
           </div>
 
@@ -329,6 +326,33 @@ export default async function PropertyPage({ params, searchParams }: PageProps) 
               </svg>
               <span className="text-lg">
                 <strong>Developers can often offer replacement RECs</strong> to ensure your organization maintains its renewable energy commitments while still benefiting from the solar lease revenue.
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Roof Installation Upfront Payments */}
+        <div className="mb-12">
+          <div className="bg-[#B1E5FF]/10 border-l-4 border-[#B1E5FF] rounded p-8">
+            <h2 className="text-2xl font-light mb-4">Roof Installation Financing</h2>
+            <p className="text-lg mb-4">
+              If your roof requires replacement or upgrades before solar installation, we have solutions to minimize out-of-pocket costs.
+            </p>
+            <div className="flex items-start">
+              <svg
+                className="w-5 h-5 text-[#B1E5FF] mr-2 flex-shrink-0 mt-0.5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                aria-hidden="true"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <span className="text-lg">
+                <strong>Developers can often offer upfront payments that cover new roof installations</strong> if needed, ensuring your facility is properly prepared for the solar system at no initial cost to your organization.
               </span>
             </div>
           </div>

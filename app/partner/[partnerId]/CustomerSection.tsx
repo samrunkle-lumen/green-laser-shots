@@ -14,7 +14,10 @@ interface CustomerSectionProps {
 export default function CustomerSection({ customer, partnerId }: CustomerSectionProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const customerUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/customer/${customer.id}?partner=${partnerId}`;
+  // Use production domain for customer URLs
+  const customerUrl = partnerId === 'watershed'
+    ? `https://rooftopsintorevenue.com/watershed/${customer.slug}`
+    : `https://rooftopsintorevenue.com/customer/${customer.id}?partner=${partnerId}`;
 
   return (
     <div className="bg-white rounded-lg shadow-sm overflow-hidden">
@@ -62,13 +65,13 @@ export default function CustomerSection({ customer, partnerId }: CustomerSection
           <div className="flex items-center justify-between mb-3">
             <div className="text-sm font-medium text-[#9FA38F]">Share with customer:</div>
             <Link
-              href={`/customer/${customer.id}?partner=${partnerId}`}
+              href={partnerId === 'watershed' ? `/watershed/${customer.slug}` : `/customer/${customer.id}?partner=${partnerId}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center text-sm font-medium text-[#B1E5FF] hover:text-[#94CAEB] transition-colors"
+              className="inline-flex items-center px-3 py-2 text-sm font-semibold text-[#1A1A1A] bg-[#B1E5FF] hover:bg-[#94CAEB] rounded-lg transition-colors"
               aria-label={`Preview customer page for ${customer.name} (opens in new tab)`}
             >
-              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <svg className="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
               </svg>
               Preview Customer Page

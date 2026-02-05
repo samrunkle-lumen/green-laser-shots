@@ -2,40 +2,57 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  // Only protect partner pages
-  if (request.nextUrl.pathname.startsWith('/partner/')) {
-    const accessKey = request.cookies.get('partner_access_key')?.value;
-    const urlAccessKey = request.nextUrl.searchParams.get('access');
+  const { pathname } = request.nextUrl;
+  const accessLevel = request.cookies.get('access_level')?.value;
 
-    const validAccessKey = process.env.PARTNER_ACCESS_KEY || 'lumen2024';
-
-    // Check if access key is valid (from cookie or URL)
-    if (accessKey === validAccessKey || urlAccessKey === validAccessKey) {
-      // If coming from URL, set cookie
-      if (urlAccessKey === validAccessKey && !accessKey) {
-        const response = NextResponse.next();
-        response.cookies.set('partner_access_key', validAccessKey, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'strict',
-          maxAge: 60 * 60 * 24 * 7 // 7 days
-        });
-        return response;
-      }
-
-      return NextResponse.next();
+  // Protect admin routes - only admin access allowed
+  if (pathname.startsWith('/admin')) {
+    if (accessLevel !== 'admin') {
+      return NextResponse.redirect(new URL('/', request.url));
     }
-
-    // Redirect to access gate if no valid key
-    const accessGateUrl = new URL('/access', request.url);
-    accessGateUrl.searchParams.set('returnTo', request.nextUrl.pathname);
-    return NextResponse.redirect(accessGateUrl);
+    return NextResponse.next();
   }
 
-  // Customer pages are public (meant to be shared)
+  // Protect partner routes
+  if (pathname.startsWith('/partner')) {
+    // Need some access level to view partner pages
+    if (!accessLevel) {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
+
+    // Watershed access can only view watershed pages
+    if (accessLevel === 'watershed' && !pathname.startsWith('/partner/watershed')) {
+      return NextResponse.redirect(new URL('/partner/watershed', request.url));
+    }
+
+    return NextResponse.next();
+  }
+
+  // Watershed customer pages (slug-based URLs)
+  if (pathname.startsWith('/watershed')) {
+    if (!accessLevel) {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
+    return NextResponse.next();
+  }
+
+  // Customer and property pages are accessible with any valid access level
+  if (pathname.startsWith('/customer') || pathname.startsWith('/property')) {
+    if (!accessLevel) {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
+    return NextResponse.next();
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/partner/:path*']
+  matcher: [
+    '/admin/:path*',
+    '/partner/:path*',
+    '/watershed/:path*',
+    '/customer/:path*',
+    '/property/:path*'
+  ]
 };

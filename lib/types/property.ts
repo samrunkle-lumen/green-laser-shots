@@ -16,6 +16,7 @@ export interface Property {
 
 export interface Customer {
   id: string;
+  slug: string; // e.g., "home-depot-7j3u" - customer ID + 4 random chars
   partnerId: string;
   name: string;
   properties: Property[];

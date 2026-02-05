@@ -1,29 +1,25 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Header from '@/components/Header';
+import InternalShareButtons from '@/components/InternalShareButtons';
 import { getPartner } from '@/config/partners';
 import { loadPartnerData } from '@/lib/data/parseCSV';
-import { groupPropertiesByCustomer, formatCurrency } from '@/lib/utils/aggregations';
+import { groupPropertiesByCustomer, getCustomerBySlug, formatCurrency } from '@/lib/utils/aggregations';
 import { getProcessExplanation } from '@/lib/content/languageLogic';
 
 interface PageProps {
   params: Promise<{
-    customerId: string;
-  }>;
-  searchParams: Promise<{
-    partner?: string;
+    slug: string;
   }>;
 }
 
-export default async function CustomerPage({ params, searchParams }: PageProps) {
-  const { customerId } = await params;
-  const { partner: partnerId } = await searchParams;
+export default async function WatershedCustomerPage({ params }: PageProps) {
+  const { slug } = await params;
 
-  if (!partnerId) {
-    notFound();
-  }
-
+  // Watershed customer pages are always for the watershed partner
+  const partnerId = 'watershed';
   const partner = getPartner(partnerId);
+
   if (!partner) {
     notFound();
   }
@@ -31,14 +27,16 @@ export default async function CustomerPage({ params, searchParams }: PageProps) 
   // Load data
   const properties = loadPartnerData(partner.id, partner.dataFile);
   const customers = groupPropertiesByCustomer(properties, partner.id);
-  const customer = customers.find(c => c.id === customerId);
+  const customer = getCustomerBySlug(customers, slug);
 
   if (!customer) {
     notFound();
   }
 
+  // Build customer URL (production domain)
+  const customerUrl = `https://rooftopsintorevenue.com/watershed/${customer.slug}`;
+
   // Determine process explanation based on ownership mix
-  
   const processInfo = getProcessExplanation(customer.ownedCount, customer.leasedCount);
 
   // Group properties by state for regional breakdown
@@ -93,6 +91,9 @@ export default async function CustomerPage({ params, searchParams }: PageProps) 
             <div className="mt-2 text-sm text-[#9FA38F]">per year</div>
           </div>
         </div>
+
+        {/* Share with Internal Team */}
+        <InternalShareButtons customer={customer} customerUrl={customerUrl} />
 
         {/* Value Proposition */}
         <div className="bg-[#B1E5FF]/10 border-l-4 border-[#B1E5FF] rounded p-6 mb-12">

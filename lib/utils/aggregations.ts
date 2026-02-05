@@ -7,6 +7,30 @@ function slugify(text: string): string {
     .replace(/(^-|-$)/g, '');
 }
 
+// Generate a deterministic 4-character hash from a string
+function generateDeterministicHash(text: string): string {
+  let hash = 0;
+  for (let i = 0; i < text.length; i++) {
+    const char = text.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32-bit integer
+  }
+
+  // Convert to positive number and then to base36 (0-9, a-z)
+  const positive = Math.abs(hash);
+  const base36 = positive.toString(36);
+
+  // Take first 4 characters, pad if needed
+  return base36.substring(0, 4).padEnd(4, '0');
+}
+
+// Create a unique slug for watershed customer URLs (e.g., "home-depot-7j3u")
+function createCustomerSlug(customerName: string): string {
+  const base = slugify(customerName);
+  const hashSuffix = generateDeterministicHash(customerName);
+  return `${base}-${hashSuffix}`;
+}
+
 export function groupPropertiesByCustomer(
   properties: Property[],
   partnerId: string
@@ -35,6 +59,7 @@ export function groupPropertiesByCustomer(
 
       return {
         id: slugify(customerName),
+        slug: createCustomerSlug(customerName), // e.g., "home-depot-7j3u"
         partnerId,
         name: customerName,
         properties: customerProperties,
@@ -55,6 +80,13 @@ export function getCustomerById(
   customerId: string
 ): Customer | undefined {
   return customers.find(c => c.id === customerId);
+}
+
+export function getCustomerBySlug(
+  customers: Customer[],
+  slug: string
+): Customer | undefined {
+  return customers.find(c => c.slug === slug);
 }
 
 export function getPropertyById(
