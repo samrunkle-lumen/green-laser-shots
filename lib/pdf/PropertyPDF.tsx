@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     backgroundColor: `${COLORS.skyBlue}15`,
     padding: 10,
     borderRadius: 4,
-    marginBottom: 10,
+    marginBottom: 8,
   },
   compactTitle: {
     fontSize: 10,
@@ -191,6 +191,21 @@ const styles = StyleSheet.create({
     fontSize: 8,
     color: COLORS.graphiteBlack,
     lineHeight: 1.3,
+  },
+  processSection: {
+    marginBottom: 10,
+  },
+  processTitle: {
+    fontSize: 11,
+    fontFamily: 'Helvetica-Bold',
+    color: COLORS.graphiteBlack,
+    marginBottom: 6,
+  },
+  processText: {
+    fontSize: 8,
+    color: COLORS.graphiteBlack,
+    lineHeight: 1.4,
+    marginBottom: 8,
   },
   ctaBox: {
     backgroundColor: COLORS.graphiteBlack,
@@ -392,6 +407,23 @@ export const PropertyPDF = ({
               If roof replacement is needed, developers can often offer upfront payments to cover installations at no initial cost to your organization.
             </Text>
           </View>
+        </View>
+
+        {/* Process Overview */}
+        <View style={styles.processSection}>
+          <Text style={styles.processTitle}>How Community Solar Works</Text>
+          <Text style={styles.processText}>
+            1. Developer installs and operates solar on your roof at no cost to you
+          </Text>
+          <Text style={styles.processText}>
+            2. They sell electricity from the solar project to local residents via utility bill credits
+          </Text>
+          <Text style={styles.processText}>
+            3. You receive {property.isOwned ? 'annual lease revenue' : 'energy savings and a share of lease revenue'}
+          </Text>
+          <Text style={styles.processText}>
+            4. Typical project life: 25+ years with developer handling all operations and maintenance
+          </Text>
         </View>
 
         {/* CTA */}

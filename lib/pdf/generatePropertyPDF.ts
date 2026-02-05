@@ -63,11 +63,11 @@ export async function generatePropertyPDF({
   isIllinois = false,
 }: GeneratePDFOptions): Promise<void> {
   try {
-    // Convert logos to data URLs
+    // Convert logos to data URLs (using PNG versions for better PDF compatibility)
     const [lumenLogoDataUrl, partnerLogoDataUrl, satelliteImageDataUrl] = await Promise.all([
-      urlToDataUrl('/logos/lumen/logo-black.svg'),
+      urlToDataUrl('/logos/lumen/logo-black.png'),
       partnerName.toLowerCase() === 'watershed'
-        ? urlToDataUrl('/logos/watershed/watershed-horizontal-dark.svg')
+        ? urlToDataUrl('/logos/watershed/watershed-horizontal-dark.png')
         : '',
       captureSatelliteMap(property.address),
     ]);
