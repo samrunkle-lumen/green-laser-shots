@@ -74,7 +74,7 @@ export default async function PartnerDashboard({ params }: PageProps) {
             </div>
           </div>
         </div>
-        </div>
+
         <FilterableCustomerList customers={customers} partnerId={partnerId} />
       </main>
     </div>
