@@ -91,6 +91,34 @@ export function encodeEmailForMailto(template: EmailTemplate): string {
   return `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
+// For customer to share single property with their internal team
+export function generatePropertyInternalEmail(property: Property, propertyUrl: string): EmailTemplate {
+  const { address, leasePerYear, systemSize, portfolio } = property;
+
+  const subject = `${portfolio} - Community Solar Opportunity at ${address}`;
+
+  const body = `Hey team,
+
+Wanted to flag a significant revenue opportunity for one of our facilities.
+
+At ${address}, we've identified a community solar project that could generate approximately ${leasePerYear} per year in additional revenue with zero capital investment or operational impact from our side.
+
+Key details:
+- System size: ${systemSize.toLocaleString()} kW
+- No upfront costs or ongoing operational burden
+- Developer handles all installation, operations, and maintenance
+- 25+ year project life with steady annual payments
+
+The timing matters: Federal tax credits are at their peak right now and will drop significantly soon. Developers are actively looking for sites like ours.
+
+View full details: ${propertyUrl}
+
+Happy to discuss further if you're interested.`;
+
+  return { subject, body };
+}
+
+// For partner to reach out to customer about specific property (external outreach)
 export function generatePropertyEmail(property: Property, partnerName: string, propertyUrl: string): EmailTemplate {
   const { address, leasePerYear, systemSize, isOwned, ownerName } = property;
 

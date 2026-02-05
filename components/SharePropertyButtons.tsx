@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Property } from '@/lib/types/property';
 import { generatePropertyPDF } from '@/lib/pdf/generatePropertyPDF';
-import { generatePropertyEmail, encodeEmailForGmail, encodeEmailForMailto } from '@/lib/email/templates';
+import { generatePropertyInternalEmail, encodeEmailForGmail, encodeEmailForMailto } from '@/lib/email/templates';
 
 interface SharePropertyButtonsProps {
   property: Property;
@@ -17,7 +17,7 @@ export default function SharePropertyButtons({ property, partnerName, propertyUr
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const [pdfError, setPdfError] = useState<string | null>(null);
 
-  const emailTemplate = generatePropertyEmail(property, partnerName, propertyUrl);
+  const emailTemplate = generatePropertyInternalEmail(property, propertyUrl);
   const gmailUrl = encodeEmailForGmail(emailTemplate);
   const mailtoUrl = encodeEmailForMailto(emailTemplate);
 

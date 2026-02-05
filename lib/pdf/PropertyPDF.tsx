@@ -37,15 +37,15 @@ const styles = StyleSheet.create({
     objectFit: 'contain',
   },
   title: {
-    fontSize: 22,
+    fontSize: 20,
     fontFamily: 'Helvetica-Bold',
     color: COLORS.graphiteBlack,
-    marginBottom: 4,
+    marginBottom: 3,
   },
   subtitle: {
-    fontSize: 11,
+    fontSize: 10,
     color: COLORS.concrete,
-    marginBottom: 10,
+    marginBottom: 8,
   },
   badge: {
     backgroundColor: COLORS.electricYellow,
@@ -56,20 +56,20 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     borderRadius: 3,
     alignSelf: 'flex-start',
-    marginBottom: 15,
+    marginBottom: 12,
   },
   badgeLeased: {
     backgroundColor: COLORS.skyBlue,
   },
   satelliteImage: {
     width: '100%',
-    height: 180,
+    height: 140,
     objectFit: 'cover',
     borderRadius: 6,
-    marginBottom: 15,
+    marginBottom: 12,
   },
   section: {
-    marginBottom: 15,
+    marginBottom: 12,
   },
   sectionTitle: {
     fontSize: 14,
@@ -127,9 +127,9 @@ const styles = StyleSheet.create({
   highlightBox: {
     backgroundColor: `${COLORS.skyBlue}15`,
     borderLeft: `3px solid ${COLORS.skyBlue}`,
-    padding: 12,
+    padding: 10,
     borderRadius: 4,
-    marginBottom: 12,
+    marginBottom: 10,
   },
   highlightBoxYellow: {
     backgroundColor: `${COLORS.electricYellow}25`,
