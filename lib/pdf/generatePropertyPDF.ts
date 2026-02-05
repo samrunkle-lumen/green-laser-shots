@@ -62,17 +62,21 @@ export function generatePropertyPDF(property: Property, partnerName: string): vo
 
   doc.setFontSize(28);
   doc.setTextColor(...graphiteBlack);
-  doc.text(property.leasePerYear, 20, yPos);
-  yPos += 6;
+  doc.text(property.leasePerYear + ' per year', 20, yPos);
+  yPos += 8;
 
-  doc.setFontSize(10);
-  doc.setTextColor(...concrete);
-  doc.text(formatCurrencyFull(property.leasePerYearNumber) + ' per year', 20, yPos);
-  yPos += 15;
+  if (!property.isOwned) {
+    doc.setFontSize(10);
+    doc.setTextColor(...concrete);
+    doc.text('To be potentially split with landlord', 20, yPos);
+    yPos += 8;
+  }
+
+  yPos += 10;
 
   // System Details Grid
   doc.setFillColor(245, 245, 245);
-  doc.rect(20, yPos, 170, 35, 'F');
+  doc.rect(20, yPos, 170, 20, 'F');
 
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
@@ -83,24 +87,12 @@ export function generatePropertyPDF(property: Property, partnerName: string): vo
 
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
-  doc.text('RATE', 95, yPos + 8);
-  doc.setFontSize(16);
-  doc.text('$' + property.ratePerKW + '/kW', 95, yPos + 16);
-
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'bold');
-  doc.text('ROOF CAPACITY', 25, yPos + 26);
-  doc.setFontSize(12);
-  doc.text(property.roofMaxPV.toLocaleString() + ' kW', 25, yPos + 32);
-
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'bold');
-  doc.text('UTILITY', 95, yPos + 26);
+  doc.text('UTILITY', 95, yPos + 8);
   doc.setFontSize(12);
   const utilityText = property.utility.length > 25 ? property.utility.substring(0, 25) + '...' : property.utility;
-  doc.text(utilityText, 95, yPos + 32);
+  doc.text(utilityText, 95, yPos + 16);
 
-  yPos += 45;
+  yPos += 30;
 
   // Property Details
   doc.setFontSize(14);

@@ -96,41 +96,35 @@ export default async function PropertyPage({ params, searchParams }: PageProps) 
                 <div className="text-sm uppercase tracking-wide text-[#9FA38F] mb-2">
                   Annual Lease Value
                 </div>
-                <div className="text-4xl font-light mb-2">{property.leasePerYear}</div>
-                <div className="text-sm text-[#9FA38F]">
-                  {formatCurrencyFull(property.leasePerYearNumber)} per year
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-[#F5F5F5] rounded-lg p-4">
-                  <div className="text-xs uppercase tracking-wide text-[#9FA38F] mb-1">
-                    System Size
+                <div className="text-4xl font-light">{property.leasePerYear} <span className="text-lg text-[#9FA38F]">per year</span></div>
+                {!property.isOwned && (
+                  <div className="text-sm text-[#9FA38F] mt-2">
+                    To be potentially split with landlord
                   </div>
-                  <div className="text-2xl font-light">
-                    {property.systemSize.toLocaleString()}
-                  </div>
-                  <div className="text-sm text-[#9FA38F]">kW</div>
-                </div>
-
-                <div className="bg-[#F5F5F5] rounded-lg p-4">
-                  <div className="text-xs uppercase tracking-wide text-[#9FA38F] mb-1">
-                    Rate
-                  </div>
-                  <div className="text-2xl font-light">${property.ratePerKW}</div>
-                  <div className="text-sm text-[#9FA38F]">per kW</div>
-                </div>
+                )}
               </div>
 
               <div className="bg-[#F5F5F5] rounded-lg p-4">
                 <div className="text-xs uppercase tracking-wide text-[#9FA38F] mb-1">
-                  Roof Capacity
+                  System Size
                 </div>
                 <div className="text-2xl font-light">
-                  {property.roofMaxPV.toLocaleString()} kW
+                  {property.systemSize.toLocaleString()}
                 </div>
-                <div className="text-sm text-[#9FA38F]">Maximum potential</div>
+                <div className="text-sm text-[#9FA38F]">kW</div>
               </div>
+
+              {property.roofMaxPV > property.systemSize && (
+                <div className="bg-[#F5F5F5] rounded-lg p-4">
+                  <div className="text-xs uppercase tracking-wide text-[#9FA38F] mb-1">
+                    Roof Capacity
+                  </div>
+                  <div className="text-2xl font-light">
+                    {property.roofMaxPV.toLocaleString()} kW
+                  </div>
+                  <div className="text-sm text-[#9FA38F]">Maximum potential</div>
+                </div>
+              )}
             </div>
           </div>
 
