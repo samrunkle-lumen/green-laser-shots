@@ -64,10 +64,13 @@ export async function generatePropertyPDF({
 }: GeneratePDFOptions): Promise<void> {
   try {
     // Convert logos to data URLs (using PNG versions for better PDF compatibility)
+    const partnerNameLower = partnerName.toLowerCase();
     const [lumenLogoDataUrl, partnerLogoDataUrl, satelliteImageDataUrl] = await Promise.all([
       urlToDataUrl('/logos/lumen/logo-black.png'),
-      partnerName.toLowerCase() === 'watershed'
+      partnerNameLower === 'watershed'
         ? urlToDataUrl('/logos/watershed/watershed-horizontal-dark.png')
+        : partnerNameLower === 'gravity climate'
+        ? urlToDataUrl('/logos/gravity/gravity-horizontal-dark.png')
         : '',
       captureSatelliteMap(property.address),
     ]);

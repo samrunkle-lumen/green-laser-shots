@@ -14,10 +14,10 @@ export const partners: Record<string, Partner> = {
   gravity: {
     id: 'gravity',
     name: 'Gravity Climate',
-    logoHorizontalDark: '/logos/lumen/logo-black.svg', // Using Lumen logo for now
-    logoHorizontalWhite: '/logos/lumen/logo-black.svg',
-    logoVerticalDark: '/logos/lumen/logo-black.svg',
-    logoVerticalWhite: '/logos/lumen/logo-black.svg',
+    logoHorizontalDark: '/logos/gravity/gravity-horizontal-dark.png',
+    logoHorizontalWhite: '/logos/gravity/gravity-horizontal-dark.png',
+    logoVerticalDark: '/logos/gravity/gravity-horizontal-dark.png',
+    logoVerticalWhite: '/logos/gravity/gravity-horizontal-dark.png',
     dataFile: 'data/partners/gravity/GLS - Gravity - Sheet1.csv',
     primaryColor: '#1A1A1A', // Use Lumen Graphite Black by default
   },
