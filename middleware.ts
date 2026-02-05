@@ -30,6 +30,11 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL('/partner/gravity', request.url));
     }
 
+    // Tradition access can only view tradition pages
+    if (accessLevel === 'tradition' && !pathname.startsWith('/partner/tradition')) {
+      return NextResponse.redirect(new URL('/partner/tradition', request.url));
+    }
+
     return NextResponse.next();
   }
 
@@ -43,6 +48,14 @@ export function middleware(request: NextRequest) {
 
   // Gravity customer pages (slug-based URLs)
   if (pathname.startsWith('/gravity')) {
+    if (!accessLevel) {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
+    return NextResponse.next();
+  }
+
+  // Tradition customer pages (slug-based URLs)
+  if (pathname.startsWith('/tradition')) {
     if (!accessLevel) {
       return NextResponse.redirect(new URL('/', request.url));
     }
@@ -66,6 +79,7 @@ export const config = {
     '/partner/:path*',
     '/watershed/:path*',
     '/gravity/:path*',
+    '/tradition/:path*',
     '/customer/:path*',
     '/property/:path*'
   ]

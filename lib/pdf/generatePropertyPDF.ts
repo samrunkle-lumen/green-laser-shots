@@ -71,6 +71,8 @@ export async function generatePropertyPDF({
         ? urlToDataUrl('/logos/watershed/watershed-horizontal-dark.png')
         : partnerNameLower === 'gravity climate'
         ? urlToDataUrl('/logos/gravity/gravity-horizontal-dark.png')
+        : partnerNameLower === 'tradition energy'
+        ? urlToDataUrl('/logos/tradition/tradition-horizontal-dark.png')
         : '',
       captureSatelliteMap(property.address),
     ]);

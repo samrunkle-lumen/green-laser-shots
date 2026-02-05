@@ -34,6 +34,10 @@ export default function Home() {
       // Gravity Climate partner access
       document.cookie = 'access_level=gravity; path=/; max-age=86400';
       router.push('/partner/gravity');
+    } else if (accessCode === 'Tr@D1T10N$3N3rGY') {
+      // Tradition Energy partner access
+      document.cookie = 'access_level=tradition; path=/; max-age=86400';
+      router.push('/partner/tradition');
     } else {
       setError(true);
       setLoading(false);

@@ -21,6 +21,16 @@ export const partners: Record<string, Partner> = {
     dataFile: 'data/partners/gravity/GLS - Gravity - Sheet1.csv',
     primaryColor: '#1A1A1A', // Use Lumen Graphite Black by default
   },
+  tradition: {
+    id: 'tradition',
+    name: 'Tradition Energy',
+    logoHorizontalDark: '/logos/tradition/tradition-horizontal-dark.png',
+    logoHorizontalWhite: '/logos/tradition/tradition-horizontal-dark.png',
+    logoVerticalDark: '/logos/tradition/tradition-horizontal-dark.png',
+    logoVerticalWhite: '/logos/tradition/tradition-horizontal-dark.png',
+    dataFile: 'data/partners/tradition/GLS - Tradition - Tradition Energy - Properties - 2_5_2026.csv',
+    primaryColor: '#1A1A1A', // Use Lumen Graphite Black by default
+  },
 };
 
 export function getPartner(partnerId: string): Partner | undefined {
