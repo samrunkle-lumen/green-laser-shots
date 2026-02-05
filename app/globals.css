@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Lumen Brand Fonts */
+@font-face {
+  font-family: 'ABC Arizona Serif';
+  src: url('/fonts/lumen/ABCArizonaSerif-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ABC Arizona Serif';
+  src: url('/fonts/lumen/ABCArizonaSerif-LightItalic.woff2') format('woff2');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ABC Pelikan';
+  src: url('/fonts/lumen/ABCPelikan-Book.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ABC Pelikan';
+  src: url('/fonts/lumen/ABCPelikan-BookItalic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ABC Pelikan';
+  src: url('/fonts/lumen/ABCPelikan-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ABC Pelikan';
+  src: url('/fonts/lumen/ABCPelikan-MediumItalic.woff2') format('woff2');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* CSS Variables for Lumen Colors */
+:root {
+  --lumen-white: #FFFFFF;
+  --lumen-black: #1A1A1A;
+  --lumen-sky-blue: #B1E5FF;
+  --lumen-electric-yellow: #DFFF5E;
+  --lumen-concrete: #9FA38F;
+}
+
+body {
+  font-family: 'ABC Pelikan', 'Inter', sans-serif;
+  color: var(--lumen-black);
+  background-color: var(--lumen-white);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'ABC Arizona Serif', 'Times', serif;
+  font-weight: 300;
+}
+
+.display {
+  font-family: 'ABC Arizona Serif', 'Times', serif;
+  font-weight: 300;
+}
+
+.mono {
+  font-family: 'ABC Pelikan Mono', 'Roboto Mono', monospace;
+}

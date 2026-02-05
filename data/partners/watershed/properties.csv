@@ -1,0 +1,52 @@
+Portfolio,Property address,Roof max PV (kW),System Size (kW) ,Lease per year,$/kW,Utility,Owner name,Type
+Estes Express Lines,"2900 W 166th St, Markham, IL 60428","2,107","2,107","$52,677",$25,Commonwealth Edison Co,First Industrial Realty Trust,Leased
+Cargill,"1400-1550 E 98th Pl, Chicago, IL 60628","2,351","2,351","$58,794",$25,Commonwealth Edison Co,Glen Una Investment & Management Co.,Leased
+Walmart,"10231 Sugar Creek Rd, Benton, IL 62812","2,352","2,352","$63,504",$27,Ameren Illinois,Daxaben R Patel,Leased
+General Motors,"1355 Remington Rd, Bolingbrook, IL 60490","2,431","2,431","$60,780",$25,Commonwealth Edison Co,The Equitable Group Inc,Leased
+Medline,"1170 S Northpoint Blvd, Waukegan, IL 60085","2,458","2,458","$61,466",$25,Commonwealth Edison Co,Blackstone,Leased
+Conagra Brands,"3801 Dewitt Ave, Mattoon, IL 61938","2,731","2,731","$73,734",$27,Ameren Illinois,Lenders Bagels,Leased
+Floor & Decor,"80 Stockwell Dr, Avon, MA 02322","2,897","2,897","$289,686",$100,National Grid - Massachusetts,E/R Properties Limited Partnership,Leased
+Mondelez International,"1555 W Ogden Ave, Naperville, IL 60540","3,490","3,490","$87,266",$25,Commonwealth Edison Co,Dawson Naperville Realty LLC,Leased
+Wayfair,"44 Station Rd, Cranbury, NJ 08512","3,540","3,540","$169,939",$48,Jersey Central Power & Lt Co,Clarion Partners,Leased
+Conagra Brands,"26 Engelhard Dr, Monroe Township, NJ 08831","3,901","3,901","$187,234",$48,Jersey Central Power & Lt Co,BUCKHEAD 26 ENGELHARD LLC,Leased
+Home Depot,"493 N Milwaukee Ave, Vernon Hills, IL 60061","2,641","2,641","$66,034",$25,Commonwealth Edison Co,L2 Partners,Leased
+Walmart,"925 Dalton Ln, Bolingbrook, IL 60490","4,825","4,825","$120,641",$25,Commonwealth Edison Co,"Northern Builders, Inc.",Leased
+BMO,"16328 Lathrop Ave, Harvey, IL 60426","6,245","6,245","$156,135",$25,Commonwealth Edison Co,"Allied Tube & Conduit, USA",Leased
+Home Depot,"525 Northwest Ave, Northlake, IL 60164","7,059","7,059","$176,465",$25,Commonwealth Edison Co,Property Reserve,Leased
+Bob's Discount Furniture,"150 Old New Brunswick Rd, Piscataway, NJ 08854","7,395","5,000","$489,985",$98,Public Service Elec & Gas Co,Prologis ,Leased
+Walmart,"100 Western Dr, Westampton, NJ 08060","7,613","5,000","$490,000",$98,Public Service Elec & Gas Co,MRP Industrial,Leased
+Macy's,"500 Meadowlands Pky, Secaucus, NJ 07094","7,800","5,000","$490,000",$98,Public Service Elec & Gas Co,Hartz Mountain Industries,Leased
+Home Depot,"6600 W 68th St, Bedford Park, IL 60638","7,862","7,862","$196,550",$25,Commonwealth Edison Co,Prologis ,Leased
+Wayfair,"1 Brick Yard Rd, Cranbury, NJ 08512","17,168","5,000","$240,000",$48,Jersey Central Power & Lt Co,Clarion Partners,Leased
+Shopify,"3000 Rand Blvd, Phillipsburg, NJ 08865","14,702","5,000","$240,000",$48,Jersey Central Power & Lt Co,Bridge Industrial,Leased
+Wayfair,"48 Station Rd, Cranbury, NJ 08512","11,160","5,000","$240,000",$48,Jersey Central Power & Lt Co,Clarion Partners,Leased
+Walmart,"3 Sorbello Rd, Pedricktown, NJ 08067","5,876","5,000","$475,000",$95,Atlantic City Electric Co,Morgan Stanley,Leased
+Bob's Discount Furniture,"511 Chelsea Rd, Aberdeen, MD 21001","8,064","6,500","$442,000",$68,Baltimore Gas & Electric Co,CBRE Investment Management,Leased
+Bob's Discount Furniture,"21215 Frontage Rd SW, Shorewood, IL 60404","9,024","9,024","$225,590",$25,Commonwealth Edison Co,Clarion Partners,Leased
+Home Depot,"16500 Hunters Green Pky, Hagerstown, MD 21740","9,745","6,500","$194,984",$30,The Potomac Edison Co,Link Logistics,Leased
+Mondelez International,"100 Prologis Pkwy, Morris, IL 60450","9,767","9,767","$244,178",$25,Commonwealth Edison Co,EQT Exeter,Leased
+Floor & Decor,"6331 Tradepoint Ave, Edgemere, MD 21219","15,647","6,500","$442,000",$68,Baltimore Gas & Electric Co,Tradepoint Atlantic,Leased
+Wayfair,"1500 Woodley Rd, Aberdeen, MD 21001","14,718","6,500","$442,000",$68,Baltimore Gas & Electric Co,PGIM,Leased
+Home Depot,"25101 S Ridgeland Ave, Monee, IL 60449","10,548","10,000","$249,992",$25,Commonwealth Edison Co,CBRE Investment Management,Leased
+Home Depot,"2950 Centerpoint Way, Channahon, IL 60410","19,417","10,000","$250,000",$25,Commonwealth Edison Co,CenterPoint Properties,Leased
+General Mills,"30131 Ridgeway Blvd, Wilmington, IL 60481","18,101","10,000","$250,000",$25,Commonwealth Edison Co,Elion Partners,Leased
+Medline,"2200 Cornerstone Pky, Grayslake, IL 60030","17,122","10,000","$250,000",$25,Commonwealth Edison Co,Hellman & Friedman,Leased
+General Mills,"1210 Irene Rd, Belvidere, IL 61008","15,600","10,000","$250,000",$25,Commonwealth Edison Co,Scannell Properties,Leased
+Wayfair,"1040 W Renwick Rd, Romeoville, IL 60446","14,405","10,000","$250,000",$25,Commonwealth Edison Co,Prologis ,Leased
+Walmart,"3501 Brandon Rd, Elwood, IL 60421","13,200","10,000","$250,000",$25,Commonwealth Edison Co,CenterPoint Properties,Leased
+Home Depot,"3301 Brandon Rd, Elwood, IL 60421","11,882","10,000","$250,000",$25,Commonwealth Edison Co,CenterPoint Properties,Leased
+Honeywell,"2768 N US 45 Rd, Metropolis, IL 62960","2,105","2,105","$56,819",$27,Ameren Illinois,Honeywell,Owned
+Marmon,"1117 N 2nd St, Murphysboro, IL 62966","2,908","2,908","$78,505",$27,Ameren Illinois,Marmon,Owned
+Dell,"50 Constitution Blvd, Franklin, MA 02038","3,256","3,256","$325,634",$100,National Grid - Massachusetts,Dell,Owned
+Conagra Brands,"1000 Brewbaker Dr, Saint Elmo, IL 62458","3,655","3,655","$98,699",$27,Ameren Illinois,Conagra Brands,Owned
+General Mills,"2089 Pillsbury Dr, Geneva, IL 60134","3,860","3,860","$96,490",$25,Commonwealth Edison Co,General Mills,Owned
+Honeywell,"2520 S Walnut Rd, Freeport, IL 61032","4,404","4,404","$110,081",$25,Commonwealth Edison Co,Honeywell,Owned
+Medline,"1200 Townline Rd, Mundelein, IL 60060","4,800","4,800","$120,000",$25,Commonwealth Edison Co,Medline,Owned
+General Mills,"915 E Pleasant St, Belvidere, IL 61008","5,671","5,671","$141,757",$25,Commonwealth Edison Co,General Mills,Owned
+Walmart,"201 S McLinden Rd, Minooka, IL 60447","5,880","5,880","$147,000",$25,Commonwealth Edison Co,Walmart,Owned
+Walmart,"3100 IL Highway 89, Spring Valley, IL 61362","13,445","10,000","$270,000",$27,Ameren Illinois,Walmart,Owned
+Mondelez International,"7300 S Kedzie Ave, Chicago, IL 60629","10,738","10,000","$250,012",$25,Commonwealth Edison Co,Mondelez International,Owned
+Walmart,"26453 Center Point Dr, Elwood, IL 60421","19,200","10,000","$250,000",$25,Commonwealth Edison Co,Walmart,Owned
+Dollar Tree,"300 Dollar Tree Ln, Joliet, IL 60436","17,640","10,000","$250,000",$25,Commonwealth Edison Co,Dollar Tree,Owned
+Cargill,"12201 S Torrence Ave, Chicago, IL 60617","12,000","10,000","$250,000",$25,Commonwealth Edison Co,Cargill,Owned
+Walmart,"23769 Matthew Rd, Sterling, IL 61081","12,000","10,000","$250,000",$25,Commonwealth Edison Co,Walmart,Owned
