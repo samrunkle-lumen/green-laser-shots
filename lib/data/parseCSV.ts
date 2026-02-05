@@ -15,6 +15,31 @@ function parseLeaseValue(leaseStr: string): number {
   return parseFloat(leaseStr.replace(/[$,]/g, ''));
 }
 
+// Robust CSV parser that handles quoted values
+function parseCSVLine(line: string): string[] {
+  const values: string[] = [];
+  let current = '';
+  let inQuotes = false;
+
+  for (let i = 0; i < line.length; i++) {
+    const char = line[i];
+
+    if (char === '"') {
+      inQuotes = !inQuotes;
+    } else if (char === ',' && !inQuotes) {
+      values.push(current.trim());
+      current = '';
+    } else {
+      current += char;
+    }
+  }
+
+  // Push the last value
+  values.push(current.trim());
+
+  return values;
+}
+
 export function parseCSV(csvPath: string, partnerId: string): Property[] {
   const fileContent = fs.readFileSync(csvPath, 'utf-8');
   const lines = fileContent.split('\n');
@@ -23,14 +48,7 @@ export function parseCSV(csvPath: string, partnerId: string): Property[] {
   const dataLines = lines.slice(1).filter(line => line.trim());
 
   const properties: Property[] = dataLines.map((line, index) => {
-    // Parse CSV line (handle quoted values)
-    const regex = /("([^"]*)"|([^,]*))/g;
-    const values: string[] = [];
-    let match;
-
-    while ((match = regex.exec(line)) !== null) {
-      values.push(match[2] !== undefined ? match[2] : match[3]);
-    }
+    const values = parseCSVLine(line);
 
     const [
       portfolio,
