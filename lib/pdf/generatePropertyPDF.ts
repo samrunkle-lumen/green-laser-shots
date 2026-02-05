@@ -1,174 +1,107 @@
-import jsPDF from 'jspdf';
+import { pdf } from '@react-pdf/renderer';
+import { PropertyPDF } from './PropertyPDF';
 import { Property } from '@/lib/types/property';
-import { formatCurrencyFull } from '@/lib/utils/aggregations';
 
-export function generatePropertyPDF(property: Property, partnerName: string): void {
-  const doc = new jsPDF('p', 'mm', 'letter');
-
-  // Lumen brand colors (as tuples for jsPDF)
-  const skyBlue: [number, number, number] = [177, 229, 255];
-  const electricYellow: [number, number, number] = [223, 255, 94];
-  const graphiteBlack: [number, number, number] = [26, 26, 26];
-  const concrete: [number, number, number] = [159, 163, 143];
-
-  let yPos = 20;
-
-  // Header - Lumen Energy
-  doc.setFillColor(...skyBlue);
-  doc.rect(0, 0, 220, 30, 'F');
-  doc.setFontSize(24);
-  doc.setTextColor(...graphiteBlack);
-  doc.setFont('helvetica', 'bold');
-  doc.text('LUMEN ENERGY', 20, 15);
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'normal');
-  doc.text('Community Solar Opportunity', 20, 22);
-
-  yPos = 45;
-
-  // Property Title
-  doc.setFontSize(18);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...graphiteBlack);
-  doc.text(property.address, 20, yPos);
-  yPos += 8;
-
-  // Customer Name
-  doc.setFontSize(12);
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(...concrete);
-  doc.text(property.portfolio, 20, yPos);
-  yPos += 12;
-
-  // Ownership Badge
-  doc.setFontSize(10);
-  if (property.isOwned) {
-    doc.setFillColor(...electricYellow);
-  } else {
-    doc.setFillColor(...skyBlue);
+/**
+ * Converts an image URL to a data URL
+ */
+async function urlToDataUrl(url: string): Promise<string> {
+  try {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  } catch (error) {
+    console.error(`Failed to convert ${url} to data URL:`, error);
+    return '';
   }
-  doc.roundedRect(20, yPos - 5, 45, 8, 2, 2, 'F');
-  doc.setTextColor(...graphiteBlack);
-  doc.setFont('helvetica', 'bold');
-  doc.text(property.isOwned ? 'Customer Owned' : 'Leased Property', 22, yPos);
-  yPos += 15;
+}
 
-  // Economics Section
-  doc.setFontSize(14);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...graphiteBlack);
-  doc.text('ANNUAL LEASE VALUE', 20, yPos);
-  yPos += 8;
+/**
+ * Captures a satellite map element as a data URL
+ */
+async function captureSatelliteMap(address: string): Promise<string> {
+  try {
+    // Try to find the map container in the DOM
+    const mapContainer = document.querySelector('[data-satellite-map]') as HTMLElement;
+    if (!mapContainer) {
+      console.warn('Satellite map container not found');
+      return '';
+    }
 
-  doc.setFontSize(28);
-  doc.setTextColor(...graphiteBlack);
-  doc.text(property.leasePerYear + ' per year', 20, yPos);
-  yPos += 8;
+    // Use html2canvas to capture the map
+    const html2canvas = (await import('html2canvas')).default;
+    const canvas = await html2canvas(mapContainer, {
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: '#F5F5F5',
+    });
 
-  if (!property.isOwned) {
-    doc.setFontSize(10);
-    doc.setTextColor(...concrete);
-    doc.text('To be potentially split with landlord', 20, yPos);
-    yPos += 8;
+    return canvas.toDataURL('image/jpeg', 0.8);
+  } catch (error) {
+    console.error('Failed to capture satellite map:', error);
+    return '';
   }
+}
 
-  yPos += 10;
+interface GeneratePDFOptions {
+  property: Property;
+  partnerName: string;
+  isIllinois?: boolean;
+}
 
-  // System Details Grid
-  doc.setFillColor(245, 245, 245);
-  doc.rect(20, yPos, 170, 20, 'F');
+/**
+ * Generates and downloads a property PDF
+ */
+export async function generatePropertyPDF({
+  property,
+  partnerName,
+  isIllinois = false,
+}: GeneratePDFOptions): Promise<void> {
+  try {
+    // Convert logos to data URLs
+    const [lumenLogoDataUrl, partnerLogoDataUrl, satelliteImageDataUrl] = await Promise.all([
+      urlToDataUrl('/logos/lumen/logo-black.svg'),
+      partnerName.toLowerCase() === 'watershed'
+        ? urlToDataUrl('/logos/watershed/watershed-horizontal-dark.svg')
+        : '',
+      captureSatelliteMap(property.address),
+    ]);
 
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...graphiteBlack);
-  doc.text('SYSTEM SIZE', 25, yPos + 8);
-  doc.setFontSize(16);
-  doc.text(property.systemSize.toLocaleString() + ' kW', 25, yPos + 16);
+    // Generate PDF
+    const blob = await pdf(
+      PropertyPDF({
+        property,
+        partnerName,
+        satelliteImageDataUrl,
+        lumenLogoDataUrl,
+        partnerLogoDataUrl,
+        isIllinois,
+      })
+    ).toBlob();
 
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'bold');
-  doc.text('UTILITY', 95, yPos + 8);
-  doc.setFontSize(12);
-  const utilityText = property.utility.length > 25 ? property.utility.substring(0, 25) + '...' : property.utility;
-  doc.text(utilityText, 95, yPos + 16);
+    // Create download link
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
 
-  yPos += 30;
+    // Clean filename: remove special characters and limit length
+    const addressForFilename = property.address
+      .replace(/[^a-zA-Z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .substring(0, 50);
 
-  // Property Details
-  doc.setFontSize(14);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...graphiteBlack);
-  doc.text('PROPERTY DETAILS', 20, yPos);
-  yPos += 8;
-
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(...concrete);
-  doc.text('Property Owner:', 20, yPos);
-  doc.setTextColor(...graphiteBlack);
-  doc.text(property.ownerName, 60, yPos);
-  yPos += 7;
-
-  doc.setTextColor(...concrete);
-  doc.text('Ownership Type:', 20, yPos);
-  doc.setTextColor(...graphiteBlack);
-  doc.text(property.type, 60, yPos);
-  yPos += 15;
-
-  // Value Proposition
-  doc.setFontSize(14);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...graphiteBlack);
-  doc.text('WHY THIS OPPORTUNITY IS VIABLE', 20, yPos);
-  yPos += 10;
-
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'bold');
-  doc.text(property.isOwned ? 'Direct Control' : 'Favorable Landlord Relationship', 20, yPos);
-  yPos += 5;
-  doc.setFont('helvetica', 'normal');
-  const controlText = property.isOwned
-    ? 'As the property owner, you have direct control to move quickly on this opportunity.'
-    : 'Strong landlord relationship enables smooth negotiations and mutual benefits.';
-  doc.text(doc.splitTextToSize(controlText, 170), 20, yPos);
-  yPos += 12;
-
-  doc.setFont('helvetica', 'bold');
-  doc.text('Developer Ready', 20, yPos);
-  yPos += 5;
-  doc.setFont('helvetica', 'normal');
-  doc.text(doc.splitTextToSize('We already have developer interest and indicative pricing in hand, ready to move forward.', 170), 20, yPos);
-  yPos += 12;
-
-  doc.setFont('helvetica', 'bold');
-  doc.text('Market Timing & ITC', 20, yPos);
-  yPos += 5;
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(200, 0, 0);
-  doc.text(doc.splitTextToSize('Current lease rates are at their peaks due to the federal Investment Tax Credit (ITC). Lease rates will decline sharply as the ITC disappears.', 170), 20, yPos);
-  yPos += 15;
-
-  // Next Steps CTA
-  doc.setFillColor(...graphiteBlack);
-  doc.rect(20, yPos, 170, 30, 'F');
-  doc.setTextColor(255, 255, 255);
-  doc.setFontSize(14);
-  doc.setFont('helvetica', 'bold');
-  doc.text('NEXT STEPS', 105, yPos + 10, { align: 'center' });
-  yPos += 17;
-  doc.setFontSize(9);
-  doc.setFont('helvetica', 'normal');
-  const ctaText = "We'd like to schedule a short working session (30 minutes) to walk through the specific economics, confirm ownership assumptions, and align on whether this fits your near-term priorities.";
-  doc.text(doc.splitTextToSize(ctaText, 160), 105, yPos, { align: 'center' });
-
-  // Footer
-  yPos = 270;
-  doc.setFontSize(8);
-  doc.setTextColor(...concrete);
-  doc.text('Lumen Energy  •  Turning rooftops into revenue', 105, yPos, { align: 'center' });
-  doc.text(`Generated for ${partnerName}  •  ${new Date().toLocaleDateString()}`, 105, yPos + 4, { align: 'center' });
-
-  // Save the PDF
-  const filename = `${property.portfolio.replace(/\s+/g, '_')}_${property.address.split(',')[0].replace(/\s+/g, '_')}_Community_Solar.pdf`;
-  doc.save(filename);
+    link.download = `Lumen-${property.portfolio}-${addressForFilename}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error('Failed to generate PDF:', error);
+    throw error;
+  }
 }

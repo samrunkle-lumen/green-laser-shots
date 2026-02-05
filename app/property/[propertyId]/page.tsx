@@ -106,6 +106,7 @@ export default async function PropertyPage({ params, searchParams }: PageProps) 
             property={property}
             partnerName={partner.name}
             propertyUrl={propertyUrl}
+            isIllinois={isIllinois}
           />
         </div>
 

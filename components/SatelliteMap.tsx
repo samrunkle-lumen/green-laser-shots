@@ -72,7 +72,7 @@ export default function SatelliteMap({ address, apiKey }: SatelliteMapProps) {
   }
 
   return (
-    <div className="rounded-lg overflow-hidden shadow-lg">
+    <div className="rounded-lg overflow-hidden shadow-lg" data-satellite-map>
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         center={center}
