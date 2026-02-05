@@ -10,7 +10,11 @@ interface PrintButtonProps {
 
 export default function PrintButton({ property, partnerName }: PrintButtonProps) {
   const handleDownload = () => {
-    generatePropertyPDF(property, partnerName);
+    generatePropertyPDF({
+      property,
+      partnerName,
+      isIllinois: false,
+    });
   };
 
   return (
