@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import Header from '@/components/Header';
 import SatelliteMap from '@/components/SatelliteMap';
-import PrintButton from '@/components/PrintButton';
+import SharePropertyButtons from '@/components/SharePropertyButtons';
 import { getPartner } from '@/config/partners';
 import { loadPartnerData } from '@/lib/data/parseCSV';
 import { getPropertyById, formatCurrencyFull } from '@/lib/utils/aggregations';
@@ -39,6 +39,10 @@ export default async function PropertyPage({ params, searchParams }: PageProps) 
 
   const ownershipInfo = getOwnershipLanguage(property);
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
+
+  // Generate property URL for sharing
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+  const propertyUrl = `${baseUrl}/property/${propertyId}?partner=${partnerId}`;
 
   return (
     <div className="min-h-screen bg-white">
@@ -78,6 +82,15 @@ export default async function PropertyPage({ params, searchParams }: PageProps) 
               {property.isOwned ? 'Customer Owned' : 'Leased Property'}
             </span>
           </div>
+        </div>
+
+        {/* Share Buttons */}
+        <div className="mb-8">
+          <SharePropertyButtons
+            property={property}
+            partnerName={partner.name}
+            propertyUrl={propertyUrl}
+          />
         </div>
 
         {/* Satellite View */}
@@ -251,9 +264,9 @@ export default async function PropertyPage({ params, searchParams }: PageProps) 
                   />
                 </svg>
               </div>
-              <h3 className="text-lg font-medium mb-2">⚡ URGENT: Market Timing & ITC</h3>
+              <h3 className="text-lg font-medium mb-2"><strong>Market Timing & ITC</strong></h3>
               <p className="text-[#9FA38F]">
-                <strong className="text-[#1A1A1A]">Current lease rates are at their peaks due to the federal Investment Tax Credit (ITC).</strong> These rates are expected to decline as incentives phase out.
+                <strong className="text-[#1A1A1A]">Current lease rates are at their peaks due to the federal Investment Tax Credit (ITC).</strong> Lease rates will decline sharply as the ITC disappears.
               </p>
             </div>
           </div>
@@ -267,15 +280,12 @@ export default async function PropertyPage({ params, searchParams }: PageProps) 
             the specific economics for this property, confirm ownership assumptions, and
             align on whether this fits your near-term priorities.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href={`mailto:?subject=Community Solar Opportunity - ${property.address}`}
-              className="inline-block bg-[#B1E5FF] hover:bg-[#94CAEB] text-[#1A1A1A] font-medium px-8 py-3 rounded-lg transition-colors"
-            >
-              Schedule a Call
-            </a>
-            <PrintButton property={property} partnerName={partner.name} />
-          </div>
+          <a
+            href={`mailto:?subject=Community Solar Opportunity - ${property.address}`}
+            className="inline-block bg-[#B1E5FF] hover:bg-[#94CAEB] text-[#1A1A1A] font-medium px-8 py-3 rounded-lg transition-colors"
+          >
+            Schedule a Call
+          </a>
         </div>
       </main>
     </div>

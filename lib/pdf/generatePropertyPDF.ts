@@ -141,11 +141,11 @@ export function generatePropertyPDF(property: Property, partnerName: string): vo
   yPos += 12;
 
   doc.setFont('helvetica', 'bold');
-  doc.text('⚡ URGENT: Market Timing & ITC Expiration', 20, yPos);
+  doc.text('Market Timing & ITC', 20, yPos);
   yPos += 5;
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(200, 0, 0);
-  doc.text(doc.splitTextToSize('Current lease rates are at their peaks due to strong incentive structures including the ITC. These rates are expected to decline as federal incentives phase out.', 170), 20, yPos);
+  doc.text(doc.splitTextToSize('Current lease rates are at their peaks due to the federal Investment Tax Credit (ITC). Lease rates will decline sharply as the ITC disappears.', 170), 20, yPos);
   yPos += 15;
 
   // Next Steps CTA
