@@ -257,10 +257,9 @@ export default async function PropertyPage({ params, searchParams }: PageProps) 
                   />
                 </svg>
               </div>
-              <h3 className="text-lg font-medium mb-2">Market Timing</h3>
+              <h3 className="text-lg font-medium mb-2">⚡ URGENT: Market Timing & ITC</h3>
               <p className="text-[#9FA38F]">
-                Current lease rates are at their peaks due to strong incentive structures
-                including the ITC.
+                <strong className="text-[#1A1A1A]">Current lease rates are at their peaks due to the federal Investment Tax Credit (ITC).</strong> These rates are expected to decline as incentives phase out.
               </p>
             </div>
           </div>
@@ -281,7 +280,7 @@ export default async function PropertyPage({ params, searchParams }: PageProps) 
             >
               Schedule a Call
             </a>
-            <PrintButton />
+            <PrintButton property={property} partnerName={partner.name} />
           </div>
         </div>
       </main>

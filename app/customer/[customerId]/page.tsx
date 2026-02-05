@@ -38,8 +38,8 @@ export default async function CustomerPage({ params, searchParams }: PageProps) 
   }
 
   // Determine process explanation based on ownership mix
-  const hasOwnedProperties = customer.ownedCount > 0;
-  const processInfo = getProcessExplanation(hasOwnedProperties);
+  
+  const processInfo = getProcessExplanation(customer.ownedCount, customer.leasedCount);
 
   // Group properties by state for regional breakdown
   const propertyStates = new Map<string, number>();

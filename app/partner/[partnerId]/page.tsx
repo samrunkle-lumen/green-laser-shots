@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import Header from '@/components/Header';
-import CustomerSection from './CustomerSection';
+// import CustomerSection from './CustomerSection';
+import FilterableCustomerList from '@/components/FilterableCustomerList';
 import { getPartner } from '@/config/partners';
 import { loadPartnerData } from '@/lib/data/parseCSV';
 import { groupPropertiesByCustomer } from '@/lib/utils/aggregations';
@@ -73,17 +74,8 @@ export default async function PartnerDashboard({ params }: PageProps) {
             </div>
           </div>
         </div>
-
-        {/* Customer List */}
-        <div className="space-y-4">
-          {customers.map((customer) => (
-            <CustomerSection
-              key={customer.id}
-              customer={customer}
-              partnerId={partnerId}
-            />
-          ))}
         </div>
+        <FilterableCustomerList customers={customers} partnerId={partnerId} />
       </main>
     </div>
   );
