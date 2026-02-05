@@ -44,23 +44,29 @@ export function parseCSV(csvPath: string, partnerId: string): Property[] {
   const fileContent = fs.readFileSync(csvPath, 'utf-8');
   const lines = fileContent.split('\n');
 
+  // Parse header row to get column indices
+  const headers = parseCSVLine(lines[0]);
+  const columnMap: Record<string, number> = {};
+  headers.forEach((header, index) => {
+    columnMap[header.toLowerCase().trim()] = index;
+  });
+
   // Skip header row
   const dataLines = lines.slice(1).filter(line => line.trim());
 
   const properties: Property[] = dataLines.map((line, index) => {
     const values = parseCSVLine(line);
 
-    const [
-      portfolio,
-      address,
-      roofMaxPV,
-      systemSize,
-      leasePerYear,
-      ratePerKW,
-      utility,
-      ownerName,
-      type
-    ] = values;
+    // Map columns based on header names - support both Watershed and Gravity formats
+    const portfolio = values[columnMap['portfolio'] ?? columnMap['customer']] || '';
+    const address = values[columnMap['property address']] || '';
+    const roofMaxPV = values[columnMap['roof max pv (kw)']] || '0';
+    const systemSize = values[columnMap['system size (kw)'] ?? columnMap['system size']] || '0';
+    const leasePerYear = values[columnMap['lease per year'] ?? columnMap['lease $/yr']] || '$0';
+    const ratePerKW = values[columnMap['$/kw']] || '0';
+    const utility = values[columnMap['utility']] || '';
+    const ownerName = values[columnMap['owner name']] || '';
+    const type = values[columnMap['type']] || '';
 
     const isOwned = portfolio.trim() === ownerName.trim();
     const propertyId = slugify(`${portfolio}-${address}-${index}`);
