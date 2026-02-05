@@ -53,8 +53,21 @@ export default function CustomerSection({ customer, partnerId }: CustomerSection
           </svg>
         </button>
 
-        {/* Share Buttons */}
+        {/* Actions */}
         <div className="mt-4 pt-4 border-t border-[#9FA38F]/20">
+          <div className="flex items-center justify-between mb-3">
+            <div className="text-sm font-medium text-[#9FA38F]">Share with customer:</div>
+            <Link
+              href={`/customer/${customer.id}?partner=${partnerId}`}
+              target="_blank"
+              className="inline-flex items-center text-sm font-medium text-[#B1E5FF] hover:text-[#94CAEB] transition-colors"
+            >
+              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+              Preview Customer Page
+            </Link>
+          </div>
           <ShareButtons customer={customer} customerUrl={customerUrl} />
         </div>
       </div>
