@@ -14,10 +14,8 @@ interface CustomerSectionProps {
 export default function CustomerSection({ customer, partnerId }: CustomerSectionProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Use production domain for customer URLs
-  const customerUrl = partnerId === 'watershed'
-    ? `https://rooftopsintorevenue.com/watershed/${customer.slug}`
-    : `https://rooftopsintorevenue.com/customer/${customer.id}?partner=${partnerId}`;
+  // Use production domain for customer URLs with nested partner structure
+  const customerUrl = `https://rooftopsintorevenue.com/${partnerId}/${customer.slug}`;
 
   return (
     <div className="bg-white rounded-lg shadow-sm overflow-hidden">
@@ -65,7 +63,7 @@ export default function CustomerSection({ customer, partnerId }: CustomerSection
           <div className="flex items-center justify-between mb-3">
             <div className="text-sm font-medium text-[#9FA38F]">Share with customer:</div>
             <Link
-              href={partnerId === 'watershed' ? `/watershed/${customer.slug}` : `/customer/${customer.id}?partner=${partnerId}`}
+              href={`/${partnerId}/${customer.slug}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center px-3 py-2 text-sm font-semibold text-[#1A1A1A] bg-[#B1E5FF] hover:bg-[#94CAEB] rounded-lg transition-colors"
@@ -91,7 +89,7 @@ export default function CustomerSection({ customer, partnerId }: CustomerSection
             {customer.properties.map((property) => (
               <Link
                 key={property.id}
-                href={`/property/${property.id}?partner=${partnerId}`}
+                href={`/${partnerId}/${customer.slug}/${property.id}`}
                 className="bg-white p-4 rounded border border-[#9FA38F]/20 hover:border-[#B1E5FF] hover:shadow-md transition-all"
                 aria-label={`View details for ${property.address}`}
               >
