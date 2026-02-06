@@ -91,7 +91,19 @@ export function parseCSV(csvPath: string, partnerId: string): Property[] {
   return properties;
 }
 
+// Cache to avoid re-parsing CSV files on every request
+const dataCache: Map<string, Property[]> = new Map();
+
 export function loadPartnerData(partnerId: string, dataFile: string): Property[] {
+  // Check cache first
+  if (dataCache.has(dataFile)) {
+    return dataCache.get(dataFile)!;
+  }
+
+  // Parse and cache
   const csvPath = path.join(process.cwd(), dataFile);
-  return parseCSV(csvPath, partnerId);
+  const properties = parseCSV(csvPath, partnerId);
+  dataCache.set(dataFile, properties);
+
+  return properties;
 }
