@@ -9,12 +9,12 @@ import { getProcessExplanation } from '@/lib/content/languageLogic';
 
 interface PageProps {
   params: Promise<{
-    slug: string;
+    customerSlug: string;
   }>;
 }
 
 export default async function TraditionCustomerPage({ params }: PageProps) {
-  const { slug } = await params;
+  const { customerSlug } = await params;
 
   // Tradition customer pages are always for the tradition partner
   const partnerId = 'tradition';
@@ -27,7 +27,7 @@ export default async function TraditionCustomerPage({ params }: PageProps) {
   // Load data
   const properties = loadPartnerData(partner.id, partner.dataFile);
   const customers = groupPropertiesByCustomer(properties, partner.id);
-  const customer = getCustomerBySlug(customers, slug);
+  const customer = getCustomerBySlug(customers, customerSlug);
 
   if (!customer) {
     notFound();

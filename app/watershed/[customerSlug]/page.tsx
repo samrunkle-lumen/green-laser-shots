@@ -9,15 +9,15 @@ import { getProcessExplanation } from '@/lib/content/languageLogic';
 
 interface PageProps {
   params: Promise<{
-    slug: string;
+    customerSlug: string;
   }>;
 }
 
-export default async function GravityCustomerPage({ params }: PageProps) {
-  const { slug } = await params;
+export default async function WatershedCustomerPage({ params }: PageProps) {
+  const { customerSlug } = await params;
 
-  // Gravity customer pages are always for the gravity partner
-  const partnerId = 'gravity';
+  // Watershed customer pages are always for the watershed partner
+  const partnerId = 'watershed';
   const partner = getPartner(partnerId);
 
   if (!partner) {
@@ -27,14 +27,14 @@ export default async function GravityCustomerPage({ params }: PageProps) {
   // Load data
   const properties = loadPartnerData(partner.id, partner.dataFile);
   const customers = groupPropertiesByCustomer(properties, partner.id);
-  const customer = getCustomerBySlug(customers, slug);
+  const customer = getCustomerBySlug(customers, customerSlug);
 
   if (!customer) {
     notFound();
   }
 
   // Build customer URL (production domain)
-  const customerUrl = `https://rooftopsintorevenue.com/gravity/${customer.slug}`;
+  const customerUrl = `https://rooftopsintorevenue.com/watershed/${customer.slug}`;
 
   // Determine process explanation based on ownership mix
   const processInfo = getProcessExplanation(customer.ownedCount, customer.leasedCount);
@@ -117,7 +117,7 @@ export default async function GravityCustomerPage({ params }: PageProps) {
             {customer.properties.map((property) => (
               <Link
                 key={property.id}
-                href={`/gravity/${customer.slug}/${property.id}`}
+                href={`/watershed/${customer.slug}/${property.id}`}
                 className="bg-white border border-[#9FA38F]/20 rounded-lg p-6 hover:border-[#B1E5FF] hover:shadow-lg transition-all"
               >
                 <div className="flex justify-between items-start mb-4">
