@@ -38,35 +38,13 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Watershed customer pages (slug-based URLs)
-  if (pathname.startsWith('/watershed')) {
-    if (!accessLevel) {
-      return NextResponse.redirect(new URL('/', request.url));
-    }
-    return NextResponse.next();
-  }
-
-  // Gravity customer pages (slug-based URLs)
-  if (pathname.startsWith('/gravity')) {
-    if (!accessLevel) {
-      return NextResponse.redirect(new URL('/', request.url));
-    }
-    return NextResponse.next();
-  }
-
-  // Tradition customer pages (slug-based URLs)
-  if (pathname.startsWith('/tradition')) {
-    if (!accessLevel) {
-      return NextResponse.redirect(new URL('/', request.url));
-    }
-    return NextResponse.next();
-  }
-
-  // Customer and property pages are accessible with any valid access level
-  if (pathname.startsWith('/customer') || pathname.startsWith('/property')) {
-    if (!accessLevel) {
-      return NextResponse.redirect(new URL('/', request.url));
-    }
+  // Customer pages are PUBLIC - no authentication required
+  // Partners can share these URLs directly with their customers
+  if (pathname.startsWith('/watershed') ||
+      pathname.startsWith('/gravity') ||
+      pathname.startsWith('/tradition') ||
+      pathname.startsWith('/customer') ||
+      pathname.startsWith('/property')) {
     return NextResponse.next();
   }
 
@@ -77,10 +55,5 @@ export const config = {
   matcher: [
     '/admin/:path*',
     '/partner/:path*',
-    '/watershed/:path*',
-    '/gravity/:path*',
-    '/tradition/:path*',
-    '/customer/:path*',
-    '/property/:path*'
   ]
 };

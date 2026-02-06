@@ -197,10 +197,12 @@ export default async function WatershedCustomerPage({ params }: PageProps) {
             the site-specific economics and align on next steps.
           </p>
           <a
-            href={`mailto:?subject=Community Solar Opportunity for ${customer.name}`}
+            href="https://www.getclockwise.com/c/sam-runkle-lumen-energy/lumen"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-block bg-[#B1E5FF] hover:bg-[#94CAEB] text-[#1A1A1A] font-medium px-8 py-3 rounded-lg transition-colors"
           >
-            Get in Touch
+            Schedule a Meeting
           </a>
         </div>
       </main>
