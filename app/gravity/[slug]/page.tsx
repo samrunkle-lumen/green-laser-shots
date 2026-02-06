@@ -117,7 +117,7 @@ export default async function GravityCustomerPage({ params }: PageProps) {
             {customer.properties.map((property) => (
               <Link
                 key={property.id}
-                href={`/property/${property.id}?partner=${partnerId}`}
+                href={`/gravity/${customer.slug}/${property.id}`}
                 className="bg-white border border-[#9FA38F]/20 rounded-lg p-6 hover:border-[#B1E5FF] hover:shadow-lg transition-all"
               >
                 <div className="flex justify-between items-start mb-4">
