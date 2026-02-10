@@ -58,11 +58,28 @@ ${propertyList}
 
 What makes these opportunities viable:
 
-- ${customer.ownedCount} ${customer.ownedCount === 1 ? 'site is' : 'sites are'} customer-owned, allowing projects to move quickly
-- ${customer.leasedCount} ${customer.leasedCount === 1 ? 'site is' : 'sites are'} leased - we can facilitate landlord discussions
-- We already have developer interest and indicative pricing in hand
+${customer.ownedCount > 0 ? `- ${customer.ownedCount} ${customer.ownedCount === 1 ? 'site is' : 'sites are'} customer-owned, allowing projects to move quickly\n` : ''}${customer.leasedCount > 0 ? `- ${customer.leasedCount} ${customer.leasedCount === 1 ? 'site is' : 'sites are'} leased - here's how this works:
+  • You sign a simple addendum (NOT a solar lease - no long-term commitment from you)
+  • Your landlord signs the solar lease (we facilitate everything and have done this hundreds of times)
+  • You receive energy savings + negotiated revenue split during your occupancy
+  • If you move, you walk away with no ongoing obligation
+  • Landlords say yes because it's guaranteed passive income with zero work\n` : ''}- We already have developer interest and indicative pricing in hand
 - Current lease rates are at their peaks due to the federal Investment Tax Credit (ITC)
+${customer.leasedCount > 0 ? `
+For your leased properties, here's the responsibility breakdown:
 
+Your role as tenant:
+- Sign a one-page lease addendum (not a solar lease)
+- Coordinate initial landlord introduction
+- Optionally subscribe to community solar for energy savings
+
+Your landlord's role:
+- Sign the 20-25 year solar lease
+- Receive long-term passive revenue (20+ years of payments)
+- No work, no risk - developer handles everything
+
+Why landlords say yes: This is guaranteed passive income with zero capital investment, zero operational burden, and it increases their property value. We facilitate the entire discussion and handle all negotiations.
+` : ''}
 What we're proposing:
 
 A short working session (30 minutes) to:

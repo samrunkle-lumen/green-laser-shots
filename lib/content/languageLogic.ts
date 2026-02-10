@@ -69,18 +69,18 @@ export function getProcessExplanation(ownedCount: number, leasedCount: number): 
       steps: [
         {
           title: '1. Lease Addendum (Not Solar Lease)',
-          description: 'You sign a simple lease addendum allowing your landlord to pursue solar. You do NOT sign a solar lease - that responsibility stays with your landlord. There is no long-term commitment on your part.'
+          description: 'You sign a simple one-page lease addendum (NOT a solar lease) that gives your landlord permission to install solar. You have NO long-term commitment. If you move, you simply walk away with no ongoing obligation.'
         },
         {
           title: '2. Landlord Agreement',
-          description: 'Your landlord signs the solar lease with the developer (20-25 year commitment). We help negotiate a revenue split that benefits you during your occupancy.'
+          description: 'Your landlord signs the 20-25 year solar lease with the developer - this is THEIR commitment, not yours. We facilitate the entire discussion and help negotiate a revenue split that benefits you during your occupancy. Most landlords move quickly because this is passive income with zero work.'
         },
         {
-          title: '3. Community Solar Subscription',
-          description: 'You subscribe to the community solar project, receiving discounted electricity (typically 10-20% below utility rates).'
+          title: '3. Your Energy Savings Begin',
+          description: 'You subscribe to the community solar project, receiving discounted electricity (typically 10-20% below utility rates). This is optional but highly recommended - you benefit from both energy savings AND negotiated lease revenue during occupancy.'
         },
         {
-          title: '4. Dual Benefits, No Long-Term Risk',
+          title: '4. Dual Benefits, Zero Long-Term Risk',
           description: 'You receive both energy savings and a negotiated portion of the lease revenue during your occupancy. If you move locations, you simply walk away with no ongoing obligation.'
         }
       ]
@@ -108,5 +108,70 @@ export function getProcessExplanation(ownedCount: number, leasedCount: number): 
         description: 'Owned properties generate direct lease revenue. Leased properties generate energy savings plus negotiated revenue splits during your occupancy, with no long-term risk.'
       }
     ]
+  };
+}
+
+export function getLandlordTenantResponsibilities(): {
+  title: string;
+  subtitle: string;
+  tenantSection: {
+    title: string;
+    description: string;
+    responsibilities: string[];
+  };
+  landlordSection: {
+    title: string;
+    description: string;
+    responsibilities: string[];
+  };
+  landlordMotivation: {
+    title: string;
+    points: Array<{ title: string; description: string }>;
+  };
+} {
+  return {
+    title: 'Understanding Leased Property Responsibilities',
+    subtitle: "You don't need direct property control to pursue these opportunities. Here's how responsibilities are split:",
+    tenantSection: {
+      title: 'Your Role (Simple & Short-Term)',
+      description: 'As the tenant, you have minimal commitment with no long-term obligation.',
+      responsibilities: [
+        'Sign a simple one-page lease addendum (NOT a solar lease)',
+        'Introduce Lumen to your landlord for initial discussion',
+        'Subscribe to community solar for energy savings (optional but recommended)',
+        'Walk away with no obligation if you move locations'
+      ]
+    },
+    landlordSection: {
+      title: "Landlord's Role (Long-Term Commitment)",
+      description: 'Your landlord makes the long-term commitment and receives the majority of benefits.',
+      responsibilities: [
+        'Sign the 20-25 year solar lease with the developer',
+        'Own the long-term commitment (not you)',
+        'Receive passive lease revenue for 20+ years',
+        'Allow solar installation on the rooftop'
+      ]
+    },
+    landlordMotivation: {
+      title: 'Why Your Landlord Will Say Yes',
+      points: [
+        {
+          title: 'Guaranteed Revenue Stream',
+          description: '20-25 years of passive income with zero capital investment or work required'
+        },
+        {
+          title: 'Property Value Enhancement',
+          description: 'Solar installations increase building value and attractiveness to future tenants'
+        },
+        {
+          title: 'Tenant Retention',
+          description: 'Offering energy savings strengthens tenant relationships and reduces turnover'
+        },
+        {
+          title: 'Zero Risk',
+          description: 'Developer handles everything - installation, maintenance, operations - landlord just collects checks'
+        }
+      ]
+    }
   };
 }
